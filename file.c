@@ -12,7 +12,7 @@
 
 //把当前内存里的学生数据保存到文件中
 void saveStudents(Student* head) {
-    FILE* fp = fopen("students.dat", "wb");
+    FILE* fp = fopen("students.dat", "wb");//二进制读写，创建新文件
     if (fp == NULL) {
         printf("学生文件保存失败！\n");
         return;
@@ -29,7 +29,7 @@ void saveStudents(Student* head) {
 
 //从student.dat文件中读取学生数据，并恢复成链表，最后返回链表头指针
 Student* loadStudents() {
-    FILE* fp = fopen("students.dat", "rb");
+    FILE* fp = fopen("students.dat", "rb");//二进制读写，文件必须存在
     if (fp == NULL)
         return NULL;
 
@@ -37,6 +37,7 @@ Student* loadStudents() {
     Student* head = NULL;
     Student* tail = NULL;
 
+    //fread二进制输入，从文件读取指定数量的数据块
     while (fread(&temp, sizeof(Student), 1, fp)) {
         Student* newNode = (Student*)malloc(sizeof(Student));
         *newNode = temp;

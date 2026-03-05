@@ -112,6 +112,7 @@ void studentMenu(LoginStatus* status)
         printf("1. 查询自己成绩\n");
         printf("2. 查询本班成绩\n");
         printf("3. 成绩分析\n");
+        printf("4. 成绩申述\n");
         printf("0. 返回\n");
 
         scanf("%d", &choice);
@@ -293,7 +294,7 @@ void mainMenu(LoginStatus* status)
         else
         {
             printf("当前用户: %s (%s)\n", status->current.username, status->current.role);
-            //strcmp为字符串比较函数
+            //strcmp字符串比较函数
             if (strcmp(status->current.role, "admin") == 0)
             {
                 printf("1. 进入功能菜单\n");
@@ -326,7 +327,7 @@ void mainMenu(LoginStatus* status)
                 else if (strcmp(status->current.role, "teacher") == 0)
                     teacherMenu(status);
                 else
-                    studentMenu(status);
+                    studentMenu(status); 
                 break;
             case 2:
                 changePassword(status);

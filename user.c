@@ -155,7 +155,7 @@ void modifyTeacherInfo(LoginStatus* status)
         if (strcmp(users[i].username, username) == 0) {
             printf("找到教师：%s\n", users[i].username);
 
-            // 修改教师信息（如密码）
+            // 修改教师信息（密码）
             char new_password[MAX_PASSWORD];
             printf("请输入新密码: ");
             fgets(new_password, MAX_PASSWORD, stdin);

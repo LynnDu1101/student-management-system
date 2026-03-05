@@ -4,6 +4,7 @@
 缺：学生信息下载至文件
 */
 //学生数据管理
+
 #define _CRT_SECURE_NO_WARNINGS     
 #include "student.h"
 
@@ -48,7 +49,7 @@ void processAppeal()
                 p->studentId,
                 p->reason);
 
-            printf("是否处理(1是):");
+            printf("是否处理(1:是):");
 
             int c;
             scanf("%d", &c);
@@ -187,31 +188,45 @@ void showAllStudents(Student* head) {
 }
 
 void sortStudents(Student** head) {
-    if (!*head) return;  // 如果链表为空，返回
+    if (!head || !*head) return;
 
     int swapped;
-    Student* ptr;
     Student* lptr = NULL;
 
     do {
         swapped = 0;
-        ptr = *head;
+        Student* prev = NULL;
+        Student* ptr = *head;
 
-        // 遍历链表
         while (ptr->next != lptr) {
-            // 如果当前节点的成绩小于下一个节点，交换它们
-            if (ptr->score < ptr->next->score) {
-                // 交换节点的指针，而不是数据
-                Student* temp = ptr->next;  // 保存当前节点的下一个节点
-                ptr->next = temp->next;     // 当前节点指向下一个节点的下一个节点
-                temp->next = *head;         // 下一个节点指向链表的头节点
-                *head = temp;               // 更新头指针，指向新交换的节点
+            Student* next = ptr->next;
 
+            // 如果当前节点成绩小于下一个节点，交换
+            if (ptr->score < next->score) {
+
+                // 交换 ptr 和 next
+                ptr->next = next->next;
+                next->next = ptr;
+
+                if (prev == NULL) {
+                    // 发生在头结点
+                    *head = next;
+                }
+                else {
+                    prev->next = next;
+                }
+
+                prev = next;   // 更新前驱
                 swapped = 1;
             }
-            ptr = ptr->next;
+            else {
+                // 不交换，正常后移
+                prev = ptr;
+                ptr = ptr->next;
+            }
         }
-        lptr = ptr;  // 更新已排序区域的指针
+        lptr = ptr;  // 本轮最大值已就位
+
     } while (swapped);
 
     printf("排序完成\n");

@@ -1,5 +1,5 @@
 //学生模块接口定义
-#ifndef STUDENT_H
+#ifndef STUDENT_H//防止一段代码被重复包含
 #define STUDENT_H
 
 #include <stdio.h>
@@ -40,7 +40,7 @@ void submitAppeal();
 void processAppeal();
 
 
-extern Student* head;     // 声明全局变量head
+extern Student* head;     // 声明全局变量head，声明
 
 Student* createStudent();
 void addStudent(Student** head);
