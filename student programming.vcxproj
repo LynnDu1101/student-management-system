@@ -131,6 +131,7 @@
     <ClInclude Include="menu.h" />
     <ClInclude Include="student.h" />
     <ClInclude Include="user.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="file.c" />
@@ -138,6 +139,7 @@
     <ClCompile Include="menu.c" />
     <ClCompile Include="student.c" />
     <ClCompile Include="user.c" />
+    <ClCompile Include="utils.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

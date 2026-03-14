@@ -27,6 +27,9 @@
     <ClInclude Include="user.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="file.c">
@@ -42,6 +45,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="user.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

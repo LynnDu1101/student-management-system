@@ -5,15 +5,16 @@
 #include "student.h"
 #include "user.h"
 #include "file.h"
+#include "utils.h"
 
 
-/* ===== å­¦ç”Ÿæˆç»©åˆ†æ ===== */
+/* ===== Ñ§Éú³É¼¨·ÖÎö ===== */
 void studentScoreAnalysis(Student* head, const char* studentId)
 {
     Student* s = findById(head, studentId);
     if (!s)
     {
-        printf("æœªæ‰¾åˆ°å­¦ç”Ÿä¿¡æ¯ï¼\n");
+        printf("Î´ÕÒµ½Ñ§ÉúĞÅÏ¢£¡\n");
         return;
     }
 
@@ -31,25 +32,25 @@ void studentScoreAnalysis(Student* head, const char* studentId)
 
     float percent = 100.0f * (count - better) / count;
 
-    printf("\n===== æˆç»©åˆ†æ =====\n");
-    printf("å§“åï¼š%s\n", s->name);
-    printf("æˆç»©ï¼š%.2f\n", s->score);
-    printf("è¶…è¿‡ %.2f%% çš„åŒå­¦\n", percent);
+    printf("\n===== ³É¼¨·ÖÎö =====\n");
+    printf("ĞÕÃû£º%s\n", s->name);
+    printf("³É¼¨£º%.2f\n", s->score);
+    printf("³¬¹ı %.2f%% µÄÍ¬Ñ§\n", percent);
 }
 
-/* ===== æŸ¥è¯¢ç­çº§æˆç»© ===== */
+/* ===== ²éÑ¯°à¼¶³É¼¨ ===== */
 void studentViewClassScores(Student* head, const char* studentId)
 {
     Student* self = findById(head, studentId);
 
     if (!self)
     {
-        printf("æœªæ‰¾åˆ°å­¦ç”Ÿä¿¡æ¯ï¼\n");
+        printf("Î´ÕÒµ½Ñ§ÉúĞÅÏ¢£¡\n");
         return;
     }
 
-    printf("\n===== æœ¬ç­æˆç»© =====\n");
-    printf("ç­çº§ï¼š%s\n\n", self->className);
+    printf("\n===== ±¾°à³É¼¨ =====\n");
+    printf("°à¼¶£º%s\n\n", self->className);
 
     Student* p = head;
     int found = 0;
@@ -69,54 +70,25 @@ void studentViewClassScores(Student* head, const char* studentId)
     }
 
     if (!found)
-        printf("æš‚æ— ç­çº§æ•°æ®\n");
+        printf("ÔİÎŞ°à¼¶Êı¾İ\n");
 }
 
-/* ===== ä»æ–‡ä»¶å½•å…¥ç”¨æˆ· ===== */
-void importUsersFromFile()
-{
-    FILE* fp = fopen("users.txt", "r");
-    if (!fp)
-    {
-        printf("æ— æ³•æ‰“å¼€ users.txt æ–‡ä»¶\n");
-        return;
-    }
 
-    User temp;
-
-    while (fscanf(fp, "%s %s %s",
-        temp.username,
-        temp.password,
-        temp.role) == 3)
-    {
-        if (userCount < MAX_USER)
-        {
-            users[userCount++] = temp;
-        }
-    }
-
-    fclose(fp);
-    saveUsers();
-
-    printf("ç”¨æˆ·å¯¼å…¥å®Œæˆï¼\n");
-}
-
-/* ===== å­¦ç”Ÿèœå• ===== */
+/* ===== Ñ§Éú²Ëµ¥ ===== */
 void studentMenu(LoginStatus* status)
 {
     int choice;
 
     while (1)
     {
-        printf("\n===== å­¦ç”Ÿèœå• =====\n");
-        printf("1. æŸ¥è¯¢è‡ªå·±æˆç»©\n");
-        printf("2. æŸ¥è¯¢æœ¬ç­æˆç»©\n");
-        printf("3. æˆç»©åˆ†æ\n");
-        printf("4. æˆç»©ç”³è¿°\n");
-        printf("0. è¿”å›\n");
+        printf("\n===== Ñ§Éú²Ëµ¥ =====\n");
+        printf("1. ²éÑ¯×Ô¼º³É¼¨\n");
+        printf("2. ²éÑ¯±¾°à³É¼¨\n");
+        printf("3. ³É¼¨·ÖÎö\n");
+        printf("4. ³É¼¨ÉêÊö\n");
+        printf("0. ·µ»Ø\n");
 
-        scanf("%d", &choice);
-        getchar();
+        choice = safeInputInt();
 
         switch (choice)
         {
@@ -138,29 +110,31 @@ void studentMenu(LoginStatus* status)
 
         case 0:
             return;
+
+        default:
+            printf("ÎŞĞ§Ñ¡Ïî\n");
         }
     }
 }
 
-/* ===== æ•™å¸ˆèœå• ===== */
+/* ===== ½ÌÊ¦²Ëµ¥ ===== */
 void teacherMenu(LoginStatus* status)
 {
     int choice;
 
     while (1)
     {
-        printf("\n===== æ•™å¸ˆèœå• =====\n");
-        printf("1. æ·»åŠ å­¦ç”Ÿ\n");
-        printf("2. ä¿®æ”¹å­¦ç”Ÿ\n");
-        printf("3. åˆ é™¤å­¦ç”Ÿ\n");
-        printf("4. æŸ¥è¯¢å­¦ç”Ÿ\n");
-        printf("5. ç­çº§æˆç»©æŸ¥çœ‹\n");
-        printf("6. ç­çº§æˆç»©åˆ†æ\n");
-        printf("7. å¯¼å‡ºç­çº§å­¦ç”Ÿ\n");
-        printf("0. è¿”å›\n");
+        printf("\n===== ½ÌÊ¦²Ëµ¥ =====\n");
+        printf("1. Ìí¼ÓÑ§Éú\n");
+        printf("2. ĞŞ¸ÄÑ§Éú\n");
+        printf("3. É¾³ıÑ§Éú\n");
+        printf("4. ²éÑ¯Ñ§Éú\n");
+        printf("5. °à¼¶³É¼¨²é¿´\n");
+        printf("6. °à¼¶³É¼¨·ÖÎö\n");
+        printf("7. µ¼³ö°à¼¶Ñ§Éú\n");
+        printf("0. ·µ»Ø\n");
 
-        scanf("%d", &choice);
-        getchar();
+        choice = safeInputInt();
 
         switch (choice)
         {
@@ -187,31 +161,33 @@ void teacherMenu(LoginStatus* status)
             break;
         case 0:
             return;
+        default:
+            printf("ÎŞĞ§Ñ¡Ïî\n");
         }
     }
 }
 
-/* ===== ç®¡ç†å‘˜èœå• ===== */
+/* ===== ¹ÜÀíÔ±²Ëµ¥ ===== */
 void adminMenu(LoginStatus* status)
 {
     int choice;
 
     while (1)
     {
-        printf("\n===== ç®¡ç†å‘˜èœå• =====\n");
-        printf("1. æ·»åŠ å­¦ç”Ÿ\n");
-        printf("2. åˆ é™¤å­¦ç”Ÿ\n");
-        printf("3. ä¿®æ”¹å­¦ç”Ÿ\n");
-        printf("4. æŸ¥è¯¢å­¦ç”Ÿ\n");
-        printf("5. æˆç»©ç»Ÿè®¡\n");
-        printf("6. å¯¼å…¥ç”¨æˆ·\n");
-        printf("7. å¯¼å‡ºå…¨éƒ¨å­¦ç”Ÿ\n");
-        printf("8. å¤„ç†æˆç»©ç”³è¯‰\n");
-        printf("9. ä¿®æ”¹æ•™å¸ˆä¿¡æ¯\n");
-        printf("0. è¿”å›\n");
+        printf("\n===== ¹ÜÀíÔ±²Ëµ¥ =====\n");
+        printf("1. Ìí¼ÓÑ§Éú\n");
+        printf("2. É¾³ıÑ§Éú\n");
+        printf("3. ĞŞ¸ÄÑ§Éú\n");
+        printf("4. ²éÑ¯Ñ§Éú\n");
+        printf("5. ³É¼¨Í³¼Æ\n");
+        printf("6. µ¼ÈëÓÃ»§\n");
+        printf("7. µ¼³öÈ«²¿Ñ§Éú\n");
+        printf("8. ´¦Àí³É¼¨ÉêËß\n");
+        printf("9. ²é¿´ÉêËß¼ÇÂ¼\n");
+        printf("10. ĞŞ¸ÄÃÜÂë\n");
+        printf("0. ·µ»Ø\n");
 
-        scanf("%d", &choice);
-        getchar();
+        choice = safeInputInt();
 
         switch (choice)
         {
@@ -240,35 +216,37 @@ void adminMenu(LoginStatus* status)
             processAppeal();
             break;
         case 9:
-            modifyTeacherInfo(status);  // ç®¡ç†å‘˜ä¿®æ”¹æ•™å¸ˆä¿¡æ¯
+            showAppeals();
+            break;
+        case 10:
+            resetUserPassword(status);  // ¹ÜÀíÔ±ĞŞ¸ÄÃÜÂë
             break;
         case 0:
             return;
         default:
-            printf("æ— æ•ˆé€‰æ‹©ï¼\n");
+            printf("ÎŞĞ§Ñ¡Ôñ£¡\n");
         }
     }
 }
 
-/* ===== ä¸»èœå• ===== */
+/* ===== Ö÷²Ëµ¥ ===== */
 void mainMenu(LoginStatus* status)
 {
     int choice;
 
     while (1)
     {
-        printf("\n===== ä¸»èœå• =====\n");
+        printf("\n===== Ö÷²Ëµ¥ =====\n");
 
         if (status->logged == false)
         {
-            printf("1. æ³¨å†Œ\n");
-            printf("2. ç™»å½•\n");
-            printf("3. æ‰¾å›å¯†ç \n");
-            printf("0. é€€å‡º\n");
+            printf("1. ×¢²á\n");
+            printf("2. µÇÂ¼\n");
+            printf("3. ÕÒ»ØÃÜÂë\n");
+            printf("0. ÍË³ö\n");
 
-            printf("è¯·é€‰æ‹©: ");
-            scanf("%d", &choice);
-            getchar();
+            printf("ÇëÑ¡Ôñ: ");
+            choice = safeInputInt();
 
             switch (choice)
             {
@@ -288,36 +266,35 @@ void mainMenu(LoginStatus* status)
                 return;
 
             default:
-                printf("æ— æ•ˆé€‰æ‹©ï¼\n");
+                printf("ÎŞĞ§Ñ¡Ôñ£¡\n");
             }
         }
         else
         {
-            printf("å½“å‰ç”¨æˆ·: %s (%s)\n", status->current.username, status->current.role);
-            //strcmpå­—ç¬¦ä¸²æ¯”è¾ƒå‡½æ•°
+            printf("µ±Ç°ÓÃ»§: %s (%s)\n", status->current.username, status->current.role);
+            //strcmp×Ö·û´®±È½Ïº¯Êı
             if (strcmp(status->current.role, "admin") == 0)
             {
-                printf("1. è¿›å…¥åŠŸèƒ½èœå•\n");
-                printf("2. ä¿®æ”¹å¯†ç \n");
-                printf("3. æ³¨é”€\n");
-                printf("4. ä¿®æ”¹æ•™å¸ˆä¿¡æ¯\n");  // ç®¡ç†å‘˜å¯ä¿®æ”¹æ•™å¸ˆä¿¡æ¯
+                printf("1. ½øÈë¹¦ÄÜ²Ëµ¥\n");
+                printf("2. ĞŞ¸ÄÃÜÂë\n");
+                printf("3. ×¢Ïú\n");
+                printf("4. ĞŞ¸Ä½ÌÊ¦ĞÅÏ¢\n");  // ¹ÜÀíÔ±¿ÉĞŞ¸Ä½ÌÊ¦ĞÅÏ¢
             }
             else if (strcmp(status->current.role, "teacher") == 0)
             {
-                printf("1. è¿›å…¥æ•™å¸ˆèœå•\n");
-                printf("2. ä¿®æ”¹å¯†ç \n");
-                printf("3. æ³¨é”€\n");
+                printf("1. ½øÈë½ÌÊ¦²Ëµ¥\n");
+                printf("2. ĞŞ¸ÄÃÜÂë\n");
+                printf("3. ×¢Ïú\n");
             }
             else
             {
-                printf("1. è¿›å…¥å­¦ç”Ÿèœå•\n");
-                printf("2. ä¿®æ”¹å¯†ç \n");
-                printf("3. æ³¨é”€\n");
+                printf("1. ½øÈëÑ§Éú²Ëµ¥\n");
+                printf("2. ĞŞ¸ÄÃÜÂë\n");
+                printf("3. ×¢Ïú\n");
             }
 
-            printf("è¯·é€‰æ‹©: ");
-            scanf("%d", &choice);
-            getchar();
+            printf("ÇëÑ¡Ôñ: ");
+            choice = safeInputInt();
 
             switch (choice)
             {
@@ -334,22 +311,22 @@ void mainMenu(LoginStatus* status)
                 break;
 
             case 3:
-                logoutUser(status);//æ³¨é”€
+                logoutUser(status);//×¢Ïú
                 break;
 
             case 4:
                 if (strcmp(status->current.role, "admin") == 0)
                 {
                     modifyTeacherInfo(status);
-                }  // ç®¡ç†å‘˜ä¿®æ”¹æ•™å¸ˆä¿¡æ¯
+                }  // ¹ÜÀíÔ±ĞŞ¸Ä½ÌÊ¦ĞÅÏ¢
                 else
                 {
-                    printf("æ— æ•ˆé€‰æ‹©ï¼\n");
+                    printf("ÎŞĞ§Ñ¡Ôñ£¡\n");
                 }
                 break;
 
             default:
-                printf("æ— æ•ˆé€‰æ‹©ï¼\n");
+                printf("ÎŞĞ§Ñ¡Ôñ£¡\n");
             }
         }
     }
