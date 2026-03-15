@@ -1,3 +1,4 @@
+//menu.c
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
@@ -7,6 +8,45 @@
 #include "file.h"
 #include "utils.h"
 
+// 修改教师信息的函数
+void modifyTeacherInfo(LoginStatus* status) {
+    if (strcmp(status->current.role, "admin") != 0) {
+        printf("权限不足，只有管理员才能修改教师信息！\n");
+        return;
+    }
+
+    char username[MAX_USERNAME];
+    printf("请输入要修改信息的教师用户名: ");
+    fgets(username, MAX_USERNAME, stdin);
+    username[strcspn(username, "\n")] = 0;  // 去掉输入的换行符
+
+    // 查找教师用户
+    for (int i = 0; i < userCount; i++) {
+        if (strcmp(users[i].username, username) == 0 && strcmp(users[i].role, "teacher") == 0) {
+            printf("找到教师: %s\n", users[i].username);
+
+            // 允许管理员修改教师的某些信息
+            printf("请输入新用户名: ");
+            fgets(users[i].username, MAX_USERNAME, stdin);
+            users[i].username[strcspn(users[i].username, "\n")] = 0; // 去掉换行符
+
+            char newPassword[MAX_PASSWORD];
+            printf("请输入新密码: ");
+            fgets(newPassword, MAX_PASSWORD, stdin);
+            newPassword[strcspn(newPassword, "\n")] = 0;
+
+            users[i].passwordHash = hashPassword(newPassword);
+
+            printf("教师信息已更新！\n");
+
+            saveUsers();  // 保存用户信息
+
+            return;
+        }
+    }
+
+    printf("未找到该教师用户！\n");
+}
 
 /* ===== 学生成绩分析 ===== */
 void studentScoreAnalysis(Student* head, const char* studentId)
@@ -15,7 +55,7 @@ void studentScoreAnalysis(Student* head, const char* studentId)
     if (!s)
     {
         printf("未找到学生信息！\n");
-        return;
+        return;  // 如果学生不存在，提前返回
     }
 
     int count = 0;

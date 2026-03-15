@@ -1,3 +1,4 @@
+//student.h
 //学生模块接口定义
 #ifndef STUDENT_H//防止一段代码被重复包含
 #define STUDENT_H

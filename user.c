@@ -1,3 +1,4 @@
+//user.c
 /*
 登录，注册，密码修改
 权限控制
@@ -146,7 +147,7 @@ bool loginUser(LoginStatus* status)
     }
 
     printf("账号或密码错误！\n");
-    return false;
+    return false;  // 提前返回
 }
 
 //注销

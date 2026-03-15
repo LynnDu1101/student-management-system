@@ -1,3 +1,4 @@
+//file.c
 //文件存储读写
 
 /*
@@ -33,7 +34,6 @@ void saveStudents(Student* head) {
 Student* loadStudents() {
     FILE* fp = fopen("students.dat", "rb");//二进制读写，文件必须存在
     if (fp == NULL) {
-        printf("文件不存在!\n");
         return NULL;
     }
 
@@ -81,9 +81,8 @@ void saveUsers() {
 void loadUsers() {
     FILE* fp = fopen("users.dat", "rb");
     if (fp == NULL) {
-        printf("文件不存在");
-    }
         return;
+    }
 
     fread(&userCount, sizeof(int), 1, fp);
     fread(users, sizeof(User), userCount, fp);
@@ -97,7 +96,7 @@ void exportStudentsToTxt(Student* head)
 
     printf("输入要导出的班级：");
     fgets(className, 50, stdin);
-    className[strcspn(className, "\n")] = 0;
+    className[strcspn(className, "\n")] = 0;  // 去掉输入的换行符
 
     FILE* fp = fopen("class_students.txt", "w");
 
@@ -113,10 +112,7 @@ void exportStudentsToTxt(Student* head)
     {
         if (strcmp(p->className, className) == 0)
         {
-            fprintf(fp, "%s %s %.2f\n",
-                p->id,
-                p->name,
-                p->score);
+            fprintf(fp, "%s %s %.2f\n", p->id, p->name, p->score);
         }
         p = p->next;
     }
@@ -159,7 +155,6 @@ void importUsersFromFile()
 
     if (!fp)
     {
-        printf("文件不存在\n");
         return;
     }
 
